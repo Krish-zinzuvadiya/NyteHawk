@@ -1,3 +1,4 @@
+
 .App {
   text-align: center;
 }
@@ -36,3 +37,8 @@
     transform: rotate(360deg);
   }
 }
+
+.main-content {
+  padding-top: 70px; /* adjust if navbar is fixed */
+}
+

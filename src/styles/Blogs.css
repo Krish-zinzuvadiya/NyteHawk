@@ -1,0 +1,51 @@
+/* styles/MiniBlogs.css */
+.mini-blog-section {
+  background: #0b132b;
+  padding: 40px 20px;
+  color: white;
+  text-align: center;
+  height: calc(390px - 0px);
+}
+
+.section-title {
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+}
+
+.blog-card-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.blog-card {
+  background: #1f1f2e;
+  padding: 20px;
+  border-radius: 12px;
+  width: 300px;
+  text-align: left;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-5px);
+}
+
+.blog-title {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #7c9eff;
+}
+
+.blog-desc {
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+}
+
+.read-more {
+  color: #facc15;
+  text-decoration: none;
+  font-weight: bold;
+}

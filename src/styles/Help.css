@@ -1,0 +1,92 @@
+.help-container {
+  background: #0a0a23;
+  color: white;
+  padding: 2rem;
+  max-width: 100%;
+  margin: auto;
+  line-height: 1.7;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+}
+
+/* Headings */
+.help-container h2 {
+  font-size: 2rem;
+  color: #66f;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.help-container h3 {
+  margin-top: 1.5rem;
+  color: #88f;
+  font-size: 1.3rem;
+}
+
+/* Lists */
+.help-container ul {
+  margin: 0.5rem 0 1rem 1.5rem;
+}
+
+.help-container ul li {
+  margin-bottom: 0.6rem;
+  font-size: 1rem;
+}
+
+/* Links */
+.help-container a {
+  color: #6cf;
+  text-decoration: none;
+  font-weight: bold;
+  word-break: break-word;
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 1024px) {
+  .help-container {
+    padding: 1.8rem;
+  }
+  .help-container h2 {
+    margin-top: 40px;
+    font-size: 1.8rem;
+  }
+  .help-container h3 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .help-container {
+    padding: 1.5rem;
+  }
+  .help-container h2 {
+    font-size: 1.6rem;
+  }
+  .help-container h3 {
+    font-size: 1.1rem;
+  }
+  .help-container ul li {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .help-container {
+    padding: 1rem;
+    text-align: center; /* ✅ center align for small screens */
+  }
+  .help-container h2 {
+    font-size: 1.4rem;
+  }
+  .help-container h3 {
+    font-size: 1rem;
+  }
+  .help-container ul {
+    margin: 0.5rem 0;
+    padding-left: 0; /* ✅ remove left padding */
+    list-style-position: inside; /* ✅ keep bullets visible */
+  }
+  .help-container ul li {
+    font-size: 0.9rem;
+  }
+}

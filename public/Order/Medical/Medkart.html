@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medkart Pharmacy</title>
+  <link rel="stylesheet" href="common.css">
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+</head>
+<body>
+  <div id="loadingScreen">Welcome to Medkart Pharmacy...</div>
+<!-- Header -->
+<header class="header">
+  <div class="header-left">
+    <img src="/images/Medical/medkart.png" alt="Medkart Logo" class="logo">
+  </div>
+  <div class="header-center">
+    <input type="text" placeholder="Search Medicines" class="search-bar" onkeyup="filterMenu()">
+  </div>
+  <div class="header-right">
+    <button class="cart-btn" onclick="openCheckout()">🛒 Cart</button>
+  </div>
+</header>
+
+<!-- Navigation -->
+<nav class="navbar">
+  <a href="https://www.apollopharmacy.in/?srsltid=AfmBOoosh-a3nSSpn7fwt9VZ6S4c5AVPxRGZdTHW9waOeW4hPjs_ZKoz" target="_blank">Buy Medicines</a>
+  <a href="https://www.apollo247.com/specialties" target="_blank">Find Doctors</a>
+  <a href="https://www.apollo247.com/lab-tests" target="_blank">Lab Tests</a>
+  <a href="https://www.apollo247.com/circle-landing" target="_blank">Circle Membership</a>
+  <a href="https://www.apollo247.com/guest-health-records" target="_blank">Health Records</a>
+</nav>
+
+
+<!-- Medicines -->
+<section class="hot-sellers">
+  <h2>Hot Sellers</h2>
+  <div class="products">
+
+    <div class="product-card">
+      <img src="/images/Medical/diominic-dca.jpeg" alt="Diominic Dca">
+      <h3>Diominic Dca</h3>
+      <p class="price">₹39.40 <span class="mrp">MRP ₹55</span> <span class="discount">28% off</span></p>
+      <div id="action1"><button class="add-btn" onclick="addItem(1,'Diominic Dca',39.40)">ADD</button></div>
+    </div>
+
+    <div class="product-card">
+      <img src="/images/Medical/zifi-200.avif" alt="Zifi 200">
+      <h3>Zifi 200</h3>
+      <p class="price">₹102 <span class="mrp">MRP ₹120</span> <span class="discount">15% off</span></p>
+      <div id="action2"><button class="add-btn" onclick="addItem(2,'Zifi 200',102)">ADD</button></div>
+    </div>
+
+    <div class="product-card">
+      <img src="/images/Medical/nivea.jpg" alt="NIVEA MEN Fresh Active Original Deodorant for Men">
+      <h3>NIVEA MEN Deodorant</h3>
+      <p class="price">₹148 <span class="mrp">MRP ₹285</span> <span class="discount">48% off</span></p>
+      <div id="action3"><button class="add-btn" onclick="addItem(3,'NIVEA MEN Deodorant',148)">ADD</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- Bottom Bar -->
+<div class="bottom-bar" id="bottomBar" style="display:none;">
+  <span id="totalPrice">₹0</span>
+  <button class="checkout-btn" onclick="openCheckout()">Checkout</button>
+</div>
+
+<!-- Checkout Sidebar -->
+<div class="checkout-sidebar" id="checkoutSidebar">
+  <button class="close-btn" onclick="closeCheckout()">✖</button>
+  <h3>Your Order</h3>
+  <div id="cartItems"></div>
+  <h4>Total: ₹<span id="finalTotal">0</span></h4>
+  <button class="order-btn" onclick="placeOrder()">Order Now</button>
+</div>
+
+<!-- QR Popup -->
+<div id="qrPopup">
+  <div class="qr-box">
+    <div class="qr-price" id="qrPriceText"></div>
+    <div id="qrcode"></div>
+    <p>Scan to Pay securely using any UPI app</p>
+    <button onclick="closeQR()">Close</button>
+  </div>
+</div>
+
+<script>
+let cart = {};
+
+function updateCart() {
+  let total = 0;
+  for (let id in cart) {
+    total += cart[id].price * cart[id].qty;
+  }
+  document.getElementById('totalPrice').textContent = `₹${total.toFixed(2)}`;
+  document.getElementById('finalTotal').textContent = total.toFixed(2);
+  document.getElementById('bottomBar').style.display = total > 0 ? 'flex' : 'none';
+}
+
+function addItem(id, name, price) {
+  if (!cart[id]) {
+    cart[id] = { name, price, qty: 1 };
+  }
+  document.getElementById(`action${id}`).innerHTML = `
+    <div class="qty-control">
+      <button class="qty-btn" onclick="changeQty(${id}, -1)">-</button>
+      <span class="qty-count">${cart[id].qty}</span>
+      <button class="qty-btn" onclick="changeQty(${id}, 1)">+</button>
+    </div>
+  `;
+  updateCart();
+}
+
+function changeQty(id, delta) {
+  if (cart[id]) {
+    cart[id].qty += delta;
+    if (cart[id].qty <= 0) {
+      delete cart[id];
+      let medData = {
+        1: {name: 'Diominic Dca', price: 39.40},
+        2: {name: 'Zifi 200', price: 102}
+      };
+      document.getElementById(`action${id}`).innerHTML =
+        `<button class="add-btn" onclick="addItem(${id},'${medData[id].name}',${medData[id].price})">ADD</button>`;
+    } else {
+      document.getElementById(`action${id}`).innerHTML = `
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeQty(${id}, -1)">-</button>
+          <span class="qty-count">${cart[id].qty}</span>
+          <button class="qty-btn" onclick="changeQty(${id}, 1)">+</button>
+        </div>
+      `;
+    }
+    updateCart();
+    if (document.getElementById('checkoutSidebar').classList.contains('active')) {
+      openCheckout();
+    }
+  }
+}
+
+function openCheckout() {
+  let cartHTML = '';
+  for (let id in cart) {
+    cartHTML += `<div class="cart-item">
+      <span>${cart[id].name}</span>
+      <div class="cart-controls">
+        <button onclick="changeQty(${id}, -1)">-</button>
+        ${cart[id].qty}
+        <button onclick="changeQty(${id}, 1)">+</button>
+      </div>
+      <span>₹${(cart[id].price * cart[id].qty).toFixed(2)}</span>
+    </div>`;
+  }
+  document.getElementById('cartItems').innerHTML = cartHTML;
+  document.getElementById('checkoutSidebar').classList.add('active');
+}
+
+function closeCheckout() {
+  document.getElementById('checkoutSidebar').classList.remove('active');
+}
+
+// Search function
+function filterMenu() {
+  const query = document.querySelector(".search-bar").value.toLowerCase();
+  const products = document.querySelectorAll(".product-card");
+
+  let found = false;
+  products.forEach(card => {
+    const name = card.querySelector("h3").textContent.toLowerCase();
+    if (name.includes(query)) {
+      card.style.display = "block";
+      found = true;
+    } else {
+      card.style.display = "none";
+    }
+  });
+
+  if (!found && query !== "") {
+    document.querySelector(".products").innerHTML = "<p>No results found</p>";
+  }
+}
+
+// QR Payment Setup
+const myUpiId = "krishrami198-1@okhdfcbank";
+const myName = "Medkart Pharmacy Payment";
+
+function generateTransactionId() {
+  const now = new Date();
+  return `MED_${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}_${Math.floor(Math.random()*900000+100000)}`;
+}
+
+function getUserName() {
+  const userData = JSON.parse(localStorage.getItem("nytehawk-user")) || {};
+  return userData.name || "Guest";
+}
+
+function placeOrder() {
+  let total = Object.values(cart).reduce((sum, item) => sum + (item.price * item.qty), 0);
+  if (total === 0) return;
+
+  let transactionId = generateTransactionId();
+  let userName = getUserName();
+
+  fetch('http://localhost:5000/api/medicine', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      userName,
+      medicalStoreName: "Medkart Pharmacy",
+      transactionId,
+      totalPrice: total
+    })
+  })
+  .then(res => res.json())
+  .then(data => console.log("Medicine Order Saved:", data))
+  .catch(err => console.error("Error:", err));
+
+  let detailsHTML = Object.values(cart).map(i => `${i.name} x${i.qty} - ₹${(i.price * i.qty).toFixed(2)}`).join("<br>");
+  document.getElementById('qrPriceText').innerHTML = `
+    <strong>${userName}</strong><br>
+    ${detailsHTML}<br>
+    <strong>Total: ₹${total.toFixed(2)}</strong><br>
+    Transaction ID: ${transactionId}
+  `;
+
+  const upiLink = `upi://pay?pa=${encodeURIComponent(myUpiId)}&pn=${encodeURIComponent(myName)}&am=${total.toFixed(2)}&cu=INR&tn=${transactionId}`;
+  document.getElementById('qrcode').innerHTML = "";
+  new QRCode(document.getElementById('qrcode'), { text: upiLink, width: 200, height: 200 });
+
+  document.getElementById('qrPopup').style.display = "flex";
+}
+
+setTimeout(() => document.getElementById('loadingScreen').style.display = 'none', 1000);
+
+
+function closeQR() {
+  document.getElementById('qrPopup').style.display = "none";
+}
+</script>
+</body>
+</html>

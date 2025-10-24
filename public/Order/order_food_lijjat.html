@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lizzat Maninagar</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    Home / Ahmedabad / <span>Lizzat Maninagar</span>
+  </div>
+
+  <!-- Header -->
+  <div class="restaurant-header">
+    <h1>Lizzat</h1>
+    <div class="restaurant-meta">
+      <p><span class="rating">⭐ 3.3 (1k ratings)</span></p>
+      <p class="cuisine">Gujarati Snacks, Fast Food</p>
+      <div class="outlet-info">
+        Outlet: <strong>Maninagar</strong> • Prep Time: 15–25 mins
+      </div>
+    </div>
+  </div>
+
+  <!-- Search -->
+  <div class="search-bar">
+    <input type="text" placeholder="Search for dishes" id="searchInput" onkeyup="filterMenu()">
+  </div>
+
+  <!-- Menu -->
+  <div class="menu">
+    <h2>Recommended</h2>
+    <div class="food-list">
+
+      <!-- Food Item 1 -->
+      <div class="food-card" id="item-1">
+        <div class="food-info">
+          <h3>Khaman</h3>
+          <span class="price">₹100</span>
+          <p class="description">
+            Fresh & fluffy khaman (250g) topped with mustard seeds, curry leaves and a hint of sweetness.
+          </p>
+        </div>
+        <div class="food-image">
+          <img src="/images/Food/khaman.jpg" alt="Khaman" />
+          <div id="actionArea-1">
+            <button class="add-btn" onclick="addItem(1)">ADD</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Food Item 2 -->
+      <div class="food-card" id="item-2">
+        <div class="food-info">
+          <h3>Dhokla</h3>
+          <span class="price">₹120</span>
+          <p class="description">
+            Soft & spongy dhokla, steamed and tempered with green chilies & sesame seeds.
+          </p>
+        </div>
+        <div class="food-image">
+          <img src="/images/Food/dhokla.webp" alt="Dhokla" />
+          <div id="actionArea-2">
+            <button class="add-btn" onclick="addItem(2)">ADD</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="height: 100px;"></div>
+
+  <!-- Bottom Bar -->
+  <div class="bottom-bar" id="bottomBar" style="display:none;">
+    <span id="totalPrice">₹0</span>
+    <button class="checkout-btn" onclick="checkout()">Checkout</button>
+  </div>
+
+  <!-- QR Popup -->
+  <div id="qrPopup">
+    <div class="qr-box">
+      <div class="qr-price" id="qrPriceText"></div>
+      <div id="qrcode"></div>
+      <p>Scan to Pay securely using any UPI app</p>
+      <button onclick="closeQR()">Close</button>
+    </div>
+  </div>
+
+<script>
+  const myUpiId = "krishrami198-1@okhdfcbank"; 
+  const myName = "NyteHawk Order";
+  const bottomBar = document.getElementById("bottomBar");
+  const totalPriceEl = document.getElementById("totalPrice");
+
+  // Menu items
+  let menuItems = [
+    { id: 1, name: "Khaman (250g)", price: 100, quantity: 0 },
+    { id: 2, name: "Dhokla", price: 120, quantity: 0 }
+  ];
+
+  function getUserName() {
+    const userData = JSON.parse(localStorage.getItem("nytehawk-user")) || {};
+    return userData.name || "Guest";
+  }
+
+  function addItem(id) {
+    let item = menuItems.find(m => m.id === id);
+    item.quantity = 1;
+    renderQtyControl(id);
+    updateBottomBar();
+  }
+
+  function increaseQty(id) {
+    let item = menuItems.find(m => m.id === id);
+    item.quantity++;
+    document.getElementById(`qtyCount-${id}`).textContent = item.quantity;
+    updateBottomBar();
+  }
+
+  function decreaseQty(id) {
+    let item = menuItems.find(m => m.id === id);
+    if (item.quantity > 1) {
+      item.quantity--;
+      document.getElementById(`qtyCount-${id}`).textContent = item.quantity;
+    } else {
+      item.quantity = 0;
+      document.getElementById(`actionArea-${id}`).innerHTML =
+        `<button class="add-btn" onclick="addItem(${id})">ADD</button>`;
+    }
+    updateBottomBar();
+  }
+
+  function renderQtyControl(id) {
+    document.getElementById(`actionArea-${id}`).innerHTML = `
+      <div class="qty-control">
+        <button class="qty-btn" onclick="decreaseQty(${id})">-</button>
+        <span class="qty-count" id="qtyCount-${id}">${menuItems.find(m => m.id === id).quantity}</span>
+        <button class="qty-btn" onclick="increaseQty(${id})">+</button>
+      </div>
+    `;
+  }
+
+  function updateBottomBar() {
+    let total = menuItems.reduce((sum, i) => sum + (i.quantity * i.price), 0);
+    totalPriceEl.textContent = `₹${total}`;
+    bottomBar.style.display = total > 0 ? 'flex' : 'none';
+  }
+
+  function generateTransactionId() {
+    const now = new Date();
+    return `TXN_${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}_${Math.floor(Math.random()*900000+100000)}`;
+  }
+
+  async function checkout() {
+    let orderItems = menuItems.filter(i => i.quantity > 0);
+    let total = orderItems.reduce((sum, i) => sum + (i.quantity * i.price), 0);
+    if (total === 0) return;
+
+    let transactionId = generateTransactionId();
+    let detailsHTML = orderItems.map(i => `${i.name} x${i.quantity} - ₹${i.quantity * i.price}`).join("<br>");
+    let userName = getUserName();
+
+    document.getElementById('qrPriceText').innerHTML = `
+      <strong>Order Summary</strong><br>
+      ${detailsHTML}<br>
+      <strong>Total: ₹${total}</strong><br>
+      Ordered By: <strong>${userName}</strong><br>
+      Transaction ID: ${transactionId}
+    `;
+
+    const upiLink = `upi://pay?pa=${encodeURIComponent(myUpiId)}&pn=${encodeURIComponent(myName)}&am=${total}&cu=INR&tn=${transactionId}`;
+    document.getElementById('qrcode').innerHTML = "";
+    new QRCode(document.getElementById('qrcode'), { text: upiLink, width: 200, height: 200 });
+
+    document.getElementById('qrPopup').style.display = "flex";
+
+    try {
+      const res = await fetch("http://localhost:5000/api/transaction", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userName: userName,
+          restaurantName: "Lizzat Maninagar",
+          transactionId: transactionId,
+          totalPrice: total
+        })
+      });
+      const data = await res.json();
+      console.log("Order Saved:", data);
+    } catch (err) {
+      console.error("❌ Error saving order:", err);
+    }
+  }
+
+  function closeQR() {
+    document.getElementById('qrPopup').style.display = "none";
+  }
+
+  function filterMenu() {
+    const query = document.getElementById("searchInput").value.toLowerCase();
+    document.querySelectorAll(".food-card").forEach(card => {
+      const name = card.querySelector("h3").textContent.toLowerCase();
+      card.style.display = name.includes(query) ? "flex" : "none";
+    });
+  }
+</script>
+
+</body>
+</html>

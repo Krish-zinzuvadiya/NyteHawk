@@ -1,0 +1,150 @@
+/* Fullscreen wrapper */
+.signup-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background: #f8f9fb;
+  overflow: hidden;
+}
+
+/* Left: Signup Form */
+.signup-left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.signup-card {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.signup-card h2 {
+  font-size: 24px;
+  margin-bottom: 6px;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.step-indicator {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
+.signup-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.signup-card input,
+.signup-card select {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  font-size: 14px;
+  outline: none;
+}
+
+.signup-card input:focus,
+.signup-card select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px #3b82f6;
+}
+
+.signup-card button {
+  padding: 12px;
+  background: linear-gradient(to right, #3b82f6, #2563eb);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.signup-card button:hover {
+  background: linear-gradient(to right, #2563eb, #1d4ed8);
+}
+
+.step-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.login-link {
+  margin-top: 20px;
+  font-size: 13px;
+  color: #4b5563;
+  text-align: center;
+}
+
+.login-link a {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* Right: Illustration */
+.signup-right {
+  flex: 1;
+  background-color: #1a1a3d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signup-right img {
+  max-width: 90%;
+  height: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .signup-wrapper {
+    flex-direction: column;
+  }
+
+  .signup-right {
+    display: none;
+  }
+
+  .signup-left {
+    padding: 20px;
+  }
+}
+
+
+/* Match input and select styles */
+.signup-card select {
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  outline: none;
+  color: white;
+  appearance: none; /* Removes default dropdown styling (especially on Firefox/Chrome) */
+  -webkit-appearance: none; /* For Safari */
+  -moz-appearance: none; /* For Firefox */
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D'10'%20height%3D'5'%20xmlns%3D'http%3A//www.w3.org/2000/svg'%3E%3Cpath%20d%3D'M0%200l5%205%205-5z'%20fill%3D'%23333'%20/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+}
+
+/* Optional: keep spacing consistent with input */
+.signup-card select option {
+  color: white;
+}

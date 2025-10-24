@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Pino'z Pizza</title>
+  <link rel="stylesheet" href="common.css">
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+</head>
+<body>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    Home / Ahmedabad / <span>La Pino'z Pizza</span>
+  </div>
+
+  <!-- Restaurant Header -->
+  <div class="restaurant-header">
+    <h1>La Pino'z Pizza</h1>
+    <div class="restaurant-meta">
+      <span class="rating">⭐ 4.4 (5.9k+)</span>
+      <span class="price_p">₹400 for two</span>
+      <span class="cuisine">Pizzas, Pastas</span>
+    </div>
+    <div class="outlet-info">
+      Outlet: <strong>Prahlad Nagar</strong> · Does not deliver
+    </div>
+  </div>
+
+  <!-- Search -->
+  <div class="search-bar">
+    <input type="text" placeholder="Search for dishes" id="searchInput" onkeyup="filterMenu()">
+  </div>
+
+  <!-- Menu -->
+  <div class="menu">
+    <h2>Recommended</h2>
+
+    <div class="food-list">
+      <!-- Pizza 1 -->
+      <div class="food-card" id="item-1">
+        <div class="food-info">
+          <h3>7 Cheesy Pizza</h3>
+          <p class="description">Overloaded with 7 types of cheese.</p>
+          <select class="size-select" onchange="changeSize(1, this.value)">
+            <option value="199">Regular - ₹199</option>
+            <option value="299">Medium - ₹299</option>
+            <option value="399">Large - ₹399</option>
+          </select>
+          <div class="price" id="price-1">₹199</div>
+        </div>
+
+        <div class="food-image">
+          <img src="/images/Food/7_cheese_pizza.jpg" alt="7 Cheesy Pizza">
+          <div class="food-action" id="actionArea-1">
+            <button class="add-btn" onclick="addItem(1)">ADD</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pizza 2 -->
+      <div class="food-card" id="item-2">
+        <div class="food-info">
+          <h3>Margherita Pizza</h3>
+          <p class="description">Classic cheesy delight, can't go wrong.</p>
+          <select class="size-select" onchange="changeSize(2, this.value)">
+            <option value="182">Regular - ₹182</option>
+            <option value="250">Medium - ₹250</option>
+            <option value="320">Large - ₹320</option>
+          </select>
+          <div class="price" id="price-2">₹182</div>
+        </div>
+
+        <div class="food-image">
+          <img src="/images/Food/margherita.jpeg" alt="Margherita Pizza">
+          <div class="food-action" id="actionArea-2">
+            <button class="add-btn" onclick="addItem(2)">ADD</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Spacer -->
+  <div style="height: 100px;"></div>
+
+  <!-- Bottom Bar -->
+  <div class="bottom-bar" id="bottomBar" style="display:none;">
+    <span id="totalPrice">₹0</span>
+    <button class="checkout-btn" onclick="checkout()">Checkout</button>
+  </div>
+
+  <!-- QR Popup -->
+  <div id="qrPopup">
+    <div class="qr-box">
+      <div class="qr-price" id="qrPriceText"></div>
+      <div id="qrcode"></div>
+      <p>Scan to Pay securely using any UPI app</p>
+      <button onclick="closeQR()">Close</button>
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script>
+    const myUpiId = "krishrami198-1@okhdfcbank";
+    const myName = "NyteHawk Order";
+    const bottomBar = document.getElementById("bottomBar");
+    const totalPriceEl = document.getElementById("totalPrice");
+
+    let menuItems = [
+      { id: 1, name: "7 Cheesy Pizza", basePrice: 199, price: 199, quantity: 0 },
+      { id: 2, name: "Margherita Pizza", basePrice: 182, price: 182, quantity: 0 }
+    ];
+
+    function changeSize(id, newPrice) {
+      let item = menuItems.find(m => m.id === id);
+      item.price = parseInt(newPrice);
+      document.getElementById(`price-${id}`).textContent = `₹${item.price}`;
+      updateBottomBar();
+    }
+
+    function addItem(id) {
+      let item = menuItems.find(m => m.id === id);
+      item.quantity = 1;
+      renderQtyControl(id);
+      updateBottomBar();
+    }
+
+    function increaseQty(id) {
+      let item = menuItems.find(m => m.id === id);
+      item.quantity++;
+      document.getElementById(`qtyCount-${id}`).textContent = item.quantity;
+      updateBottomBar();
+    }
+
+    function decreaseQty(id) {
+      let item = menuItems.find(m => m.id === id);
+      if (item.quantity > 1) {
+        item.quantity--;
+        document.getElementById(`qtyCount-${id}`).textContent = item.quantity;
+      } else {
+        item.quantity = 0;
+        document.getElementById(`actionArea-${id}`).innerHTML =
+          `<button class="add-btn" onclick="addItem(${id})">ADD</button>`;
+      }
+      updateBottomBar();
+    }
+
+    function renderQtyControl(id) {
+      document.getElementById(`actionArea-${id}`).innerHTML = `
+        <div class="qty-control">
+          <button class="qty-btn" onclick="decreaseQty(${id})">-</button>
+          <span class="qty-count" id="qtyCount-${id}">${menuItems.find(m => m.id === id).quantity}</span>
+          <button class="qty-btn" onclick="increaseQty(${id})">+</button>
+        </div>
+      `;
+    }
+
+    function updateBottomBar() {
+      let total = menuItems.reduce((sum, i) => sum + (i.quantity * i.price), 0);
+      totalPriceEl.textContent = `₹${total}`;
+      bottomBar.style.display = total > 0 ? 'flex' : 'none';
+    }
+
+    function generateTransactionId() {
+      const now = new Date();
+      return `TXN_${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}_${Math.floor(Math.random()*900000+100000)}`;
+    }
+
+    async function checkout() {
+      const userName = getUserName();
+        let orderItems = menuItems.filter(i => i.quantity > 0);
+        let total = orderItems.reduce((sum, i) => sum + (i.quantity * i.price), 0);
+        if (total === 0) return;
+
+        let transactionId = generateTransactionId();
+        let detailsHTML = orderItems.map(i => `${i.name} x${i.quantity} - ₹${i.quantity * i.price}`).join("<br>");
+
+        document.getElementById('qrPriceText').innerHTML = `
+          <strong>Order Summary</strong><br>
+          ${detailsHTML}<br>
+          <strong>Total: ₹${total}</strong><br>
+          Transaction ID: ${transactionId}
+        `;
+
+        const upiLink = `upi://pay?pa=${encodeURIComponent(myUpiId)}&pn=${encodeURIComponent(myName)}&am=${total}&cu=INR&tn=${transactionId}`;
+        document.getElementById('qrcode').innerHTML = "";
+        new QRCode(document.getElementById('qrcode'), { text: upiLink, width: 200, height: 200 });
+
+        document.getElementById('qrPopup').style.display = "flex";
+
+        // ⬇️ Save order to database
+        try {
+          const res = await fetch("http://localhost:5000/api/transaction", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userName: userName,
+              restaurantName: "La Pino'z Pizza",
+              transactionId: transactionId,
+              totalPrice: total
+            })
+          });
+
+          const data = await res.json();
+          console.log("Order Saved:", data);
+        } catch (err) {
+          console.error("❌ Error saving order:", err);
+        }
+      }
+
+      function getUserName() {
+    const userData = JSON.parse(localStorage.getItem("nytehawk-user")) || {};
+    return userData.name || "Guest";
+  }
+  
+    function closeQR() {
+      document.getElementById('qrPopup').style.display = "none";
+    }
+
+    function filterMenu() {
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      document.querySelectorAll(".food-card").forEach(card => {
+        const name = card.querySelector("h3").textContent.toLowerCase();
+        card.style.display = name.includes(query) ? "flex" : "none";
+      });
+    }
+  </script>
+
+</body>
+</html>

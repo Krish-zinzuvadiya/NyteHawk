@@ -1,0 +1,233 @@
+html {
+  overflow-x: hidden;
+}
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  background: #f9f9f9;
+  color: #333;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  padding: 12px 20px;
+  font-size: 14px;
+  background: #fff8f2;
+  color: #fc8019;
+  font-weight: 500;
+  border-bottom: 1px solid #eee;
+}
+
+/* Header (Swiggy style) */
+.restaurant-header {
+  padding: 20px;
+  background: linear-gradient(135deg, #fc8019, #ff9e58);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  border-radius: 0 0 25px 25px;
+  text-align: center;
+}
+.restaurant-header h1 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+.restaurant-meta {
+  margin-top: 8px;
+  font-size: 15px;
+  color: rgba(255,255,255,0.9);
+}
+.restaurant-meta span {
+  margin-right: 12px;
+}
+.outlet-info {
+  margin-top: 5px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+}
+
+/* Search */
+.search-bar {
+  padding: 12px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+}
+.search-bar input {
+  width: 60%;
+  padding: 10px 14px;
+  border-radius: 25px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+  transition: 0.3s;
+}
+.search-bar input:focus {
+  border-color: #fc8019;
+  box-shadow: 0 0 5px rgba(252,128,25,0.3);
+  outline: none;
+}
+
+/* Food List (keeping your structure) */
+.food-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 15px;
+  justify-content: center;
+}
+.food-card {
+  flex: 1 1 calc(30% - 10px);
+  max-width: calc(60% - 1px);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease-in-out;
+}
+.food-card:hover {
+  transform: translateY(-3px);
+}
+.food-info {
+  flex: 1;
+}
+.food-info h3 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 600;
+}
+.description {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 10px;
+}
+.size-select {
+  margin-bottom: 8px;
+  padding: 5px;
+}
+.price {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: black;
+}
+.price_p {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: white;
+}
+.food-image {
+  text-align: center;
+}
+.food-image img {
+  width: 120px;
+  border-radius: 10px;
+}
+
+/* Buttons */
+.add-btn {
+  background: #48c479;
+  color: white;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.add-btn:hover {
+  background: #36a463;
+}
+.qty-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.qty-btn {
+  background: #e23744;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.qty-count {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+/* Bottom Bar */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fc8019;
+  color: #fff;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 500;
+  box-shadow: 0 -3px 10px rgba(0,0,0,0.15);
+}
+.checkout-btn {
+  background: #48c479;
+  color: #fff;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.checkout-btn:hover {
+  background: #36a463;
+}
+
+/* QR Popup */
+#qrPopup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+.qr-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+}
+.qr-box button {
+  margin-top: 12px;
+  padding: 7px 14px;
+  border: none;
+  background: #e23744;
+  color: #fff;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.qr-box button:hover {
+  background: #c41f2d;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .food-card {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+  .search-bar input {
+    width: 90%;
+  }
+}
