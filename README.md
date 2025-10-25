@@ -1,70 +1,93 @@
-# Getting Started with Create React App
+# 🌌 NyteHawk — Nearby Services Full-Stack Web Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+NyteHawk is a **full-stack web application** built using **React (Frontend)** and **Node.js + Express (Backend)**.  
+It helps users explore nearby services such as ATMs, pharmacies, and food outlets, with added features like secure login/signup, contact form email handling, QR code payment generation, and newsletter subscriptions.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Features
 
-### `npm start`
+### 🖥️ Frontend (React)
+- Modern, responsive design with split-screen layout
+- Interactive carousels using **Swiper.js**
+- Dynamic routing with **React Router DOM**
+- Service location via **React Leaflet** (maps)
+- Newsletter subscription form
+- Axios-based API integration with backend
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### ⚙️ Backend (Node.js + Express)
+- **Nodemailer** for sending emails (contact form, newsletter)
+- **QR code generation** for medicine and food payment
+- RESTful API endpoints for secure data flow
+- **CORS**, **dotenv**, and **body-parser** for configuration and security
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## 🧩 Tech Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Layer | Technology |
+|--------|-------------|
+| **Frontend** | HTML, CSS, JavaScript, React, React Router DOM, Swiper, Axios, React Icons, React Leaflet, Leaflet |
+| **Backend** | Node.js, Express.js, Nodemailer, QRCode |
+| **Database (optional)** | MongoDB |
+| **Styling** | CSS / TailwindCSS |
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🛠️ Installation Guide
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 1. Clone the Repository
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+git clone https://github.com/Krish-zinzuvadiya/Nytehawk.git
+```
 
-### `npm run eject`
+### 2. Navigate to the Project Directory
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+cd Nytehawk
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 3. Install Frontend Dependencies
+- Run the following command to install all required packages:
+```bash
+npm install
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- If you encounter missing module errors, install them manually:
+```bash
+npm install react-router-dom swiper react-icons axios react-leaflet leaflet
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 4. Install Backend Dependencies 
+- Open a new terminal and run:
+```bash
+cd ../backend
+npm install express nodemailer qrcode cors body-parser axios dotenv
+```
 
-## Learn More
+### 5. Start The Development Server
+- Frontend:
+```bash
+npm start
+```
+Your app will start at: 👉 http://localhost:3000
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Backend:
+```bash
+node server.js
+```
+Backend runs on: 👉 http://localhost:5000
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+## 📬 Contact
+Developer: Krish Zinzuvadiya | 📧 Email: krishrami198@gmail.com | 💻 GitHub: https://github.com/Krish-zinzuvadiya
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🧑‍🤝‍🧑 Credits / Our Team
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+| Name | LinkedIn | GitHub |
+|------|-----------|--------|
+| **Krish Zinzuvadiya** | [LinkedIn](https://www.linkedin.com/in/krish-zinzuvadiya-449b70279/) | [GitHub](https://github.com/Krish-zinzuvadiya) |
+| **Henil Shah** | [LinkedIn](https://www.linkedin.com/in/henil-shah-a030b7349/l) | [GitHub](https://github.com/henil7781) |
+| **Aaryan Chauhan** | [LinkedIn](https://www.linkedin.com/in/aaryan-chauhan/) | [GitHub](https://github.com/aaryan-chauhan) |
+| **Vishwa Malavia** | [LinkedIn](https://www.linkedin.com/in/vishwa-malavia-26ab51296/) | [GitHub](https://github.com/vishwamalavia) |
