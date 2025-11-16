@@ -172,7 +172,7 @@ function placeOrder() {
   let transactionId = generateTransactionId();
   let userName = getUserName();
 
-  fetch('http://localhost:5000/api/medicine', {
+  fetch('https://nytehawk-backend-7.onrender.com/api/medicine', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
