@@ -2,6 +2,7 @@
   display: grid;
   grid-template-columns: 20% 80%;
   min-height: 100vh; /* allow content to grow */
+  width: 100%;
 }
 
 .left-panel {
@@ -12,6 +13,7 @@
   flex-direction: column;
   gap: 12px;
   height: 100%;           /* NEW */
+  width: 100%;
   overflow-y: visible;    /* Changed from auto */
 }
 
@@ -32,7 +34,12 @@ select {
   background-position: right 12px center;
   background-size: 16px;
 }
-
+.search-input{
+  width: 90%;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+}
 /* On hover/focus */
 select:hover,
 select:focus {
@@ -75,7 +82,7 @@ input,
 }
 .search-bar-container {
   display: flex;
-  width: 113%;
+  width: 108%;
   margin-left: -10px;
   align-items: center;
   gap: 10px;
@@ -99,7 +106,7 @@ input,
 .search-icon {
   position: absolute;
   top: 50%;
-  margin-left: -20%;
+  margin-left: -10%;
   transform: translateY(-50%);
   color: #666;
 }
@@ -118,6 +125,96 @@ input,
   background-color: #4734b8;
 }
 
+/* -------- PLACE GROUP WRAPPER -------- */
+.place-group {
+  margin-bottom: 16px;
+  background: #1f2937; /* dark card */
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  transition: all 0.3s ease;
+}
+
+/* -------- GROUP HEADER -------- */
+.group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #f9fafb; /* light text for dark bg */
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.3s ease;
+}
+
+.group-header:hover {
+  background: #111827;
+}
+
+.group-header.open {
+  background: #5656bd;
+  color: #ffffff;
+}
+
+/* Toggle icon animation */
+.toggle-icon {
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+.group-header.open .toggle-icon {
+  transform: rotate(180deg);
+}
+
+/* -------- GROUP ITEMS -------- */
+.group-items {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, padding 0.3s ease;
+  padding: 0 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.group-items.open {
+  max-height: 500px; /* enough for items */
+  padding: 12px 16px;
+}
+
+/* -------- PLACE BUTTONS -------- */
+.place-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #374151;
+  background: #111827; /* dark bg */
+  color: #f9fafb; /* light text */
+  cursor: pointer;
+  transition: all 0.25s ease;
+  min-height: 40px;
+}
+
+.place-btn img {
+  width: 22px;
+  height: 22px;
+}
+
+.place-btn:hover {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+.place-btn.active {
+  background: #3b82f6;
+  color: #ffffff;
+  border-color: #3b82f6;
+}
 
 .location-output {
   font-size: 13px;
