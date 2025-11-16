@@ -180,7 +180,7 @@
     document.getElementById('qrPopup').style.display = "flex";
 
     try {
-      const res = await fetch("http://localhost:5000/api/transaction", {
+      const res = await fetch("https://nytehawk-backend-7.onrender.com/api/transaction", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
