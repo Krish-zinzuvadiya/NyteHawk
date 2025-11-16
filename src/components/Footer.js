@@ -43,7 +43,7 @@ const Footer = () => {
     e.preventDefault();
     const email = e.target.email.value;
 
-    const res = await fetch('http://localhost:5000/api/subscribe', {
+    const res = await fetch('https://nytehawk-backend-7.onrender.com/api/subscribe', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email }),
