@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import '../styles/Contact.css';
 import { FaGithub } from 'react-icons/fa';
-import { API_URL } from '../config';
 
 const Contact = () => {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
