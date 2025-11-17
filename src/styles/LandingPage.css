@@ -265,7 +265,6 @@ color: white;
   .nav-buttons {
   display: flex;
   align-items: center;
-  gap: 12px; /* spacing between buttons */
 }
   .landing-content h1 {
     font-size: 200px;
