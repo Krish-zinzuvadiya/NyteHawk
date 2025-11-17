@@ -31,7 +31,7 @@ const Navbar = () => {
 
         <div className="left-section">
           <a href="/home" className="logo-link">
-            <img src="/Images/logo1.png" alt="NyteHawk Logo" className="logo" />
+            <img src="/images/logo1.png" alt="NyteHawk Logo" className="logo" />
           </a>
         </div>
 
