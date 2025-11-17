@@ -15,12 +15,13 @@ import LandingPage from './components/LandingPage';
 import Profile from './components/Profile';
 import ForgotPassword from './components/ForgotPassword';
 import BackToTop from './components/Back_To_Top'
-
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   const isLoggedIn = localStorage.getItem('nytehawk-user');
 
   return (
+    <>
     <Router>
       <Routes>
         {/* Landing / Redirect route */}
@@ -118,8 +119,12 @@ function App() {
             )
           }
         />
+      
       </Routes>
     </Router>
+             {/* Vercel Analytics */}
+      <Analytics />
+    </>
   );
 }
 
