@@ -4,8 +4,6 @@ import '../styles/Home.css';
 import { MapContainer, TileLayer, Marker, Popup, useMap, ZoomControl } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-//Icons.
-import policeIcon from '../../public/images/icons/police-station.png';
 
 const primeAreas = {
   Navrangpura: { lat: 23.0419, lon: 72.5601 },
