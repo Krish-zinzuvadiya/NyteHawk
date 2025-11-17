@@ -1,17 +1,19 @@
 /* styles/MiniBlogs.css */
 .mini-blog-section {
   background: #0b132b;
-  padding: 40px 20px;
+  padding: 50px 20px;
   color: white;
   text-align: center;
-  height: calc(390px - 0px);
+  min-height: 390px;
 }
 
 .section-title {
-  font-size: 1.8rem;
+  font-size: 1.9rem;
+  font-weight: 600;
   margin-bottom: 30px;
 }
 
+/* Blog Cards Layout */
 .blog-card-container {
   display: flex;
   justify-content: center;
@@ -19,33 +21,92 @@
   flex-wrap: wrap;
 }
 
+/* Individual Card */
 .blog-card {
   background: #1f1f2e;
-  padding: 20px;
-  border-radius: 12px;
+  padding: 22px;
+  border-radius: 14px;
   width: 300px;
   text-align: left;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-  transition: transform 0.2s ease;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .blog-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.08);
 }
 
 .blog-title {
-  font-size: 1.2rem;
+  font-size: 1.22rem;
   margin-bottom: 10px;
   color: #7c9eff;
+  font-weight: 600;
 }
 
 .blog-desc {
-  font-size: 0.95rem;
-  margin-bottom: 12px;
+  font-size: 0.96rem;
+  margin-bottom: 15px;
+  color: #cfd8ff;
+  line-height: 1.4rem;
 }
 
 .read-more {
   color: #facc15;
   text-decoration: none;
   font-weight: bold;
+  transition: opacity 0.3s ease;
+}
+
+.read-more:hover {
+  opacity: 0.7;
+}
+
+
+/* -------------------------------------
+   📱 Responsive Breakpoints
+--------------------------------------*/
+
+/* Tablets */
+@media (max-width: 900px) {
+  .section-title {
+    font-size: 1.7rem;
+  }
+
+  .blog-card {
+    width: 45%;
+    min-width: 260px;
+  }
+}
+
+/* Large Mobile */
+@media (max-width: 600px) {
+  .section-title {
+    font-size: 1.6rem;
+  }
+
+  .blog-card {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+  }
+
+  .blog-title {
+    font-size: 1.15rem;
+  }
+
+  .blog-desc {
+    font-size: 0.9rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 400px) {
+  .mini-blog-section {
+    padding: 35px 12px;
+  }
+
+  .section-title {
+    font-size: 1.45rem;
+  }
 }
