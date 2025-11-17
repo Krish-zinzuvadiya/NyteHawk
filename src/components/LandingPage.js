@@ -23,8 +23,8 @@ const LandingPage = () => {
 
       <div className="landing-content">
   <h1>
-    Welcome To, <br />
-    <span className="gradient-text">NyteHawk</span>
+    Welcome To,
+    <span className="gradient-text"> NyteHawk</span>
   </h1>
 
   <p>
