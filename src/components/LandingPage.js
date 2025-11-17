@@ -6,7 +6,6 @@ import MiniBlogCards from './Blogs';
 import Footer from './Footer';
 import { ReactTyped } from "react-typed";
 
-
 const LandingPage = () => {
   const navigate = useNavigate();
 
