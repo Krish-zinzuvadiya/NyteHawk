@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Signup.css';
+import { Player } from "@lottiefiles/react-lottie-player";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -150,11 +151,19 @@ const Signup = () => {
         </div>
       </div>
       <div className="signup-right">
-        <img
-          src="/images/2.png"
-          alt="Signup visual"
-        />
+        <Player
+              autoplay
+              loop
+              src="/images/Animations/Profile.json"
+              style={{ height: "90%", width: "90%" }}
+            />
       </div>
+
+      <div className="back-btn-container">
+  <button className="back-btn" onClick={() => navigate(-1)}>
+    <img src="/images/arrow.png" alt="Back" height="40px"/>
+  </button>
+</div>
     </div>
   );
 };
