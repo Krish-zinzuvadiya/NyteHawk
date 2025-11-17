@@ -13,7 +13,7 @@ const Signup = () => {
     relative1Name: '', relative1Phone: '', relative2Name: '', relative2Phone: ''
   });
 
-  const [cities, setCities] = useState([]);  // To store cities based on state selection
+  const [cities, setCities] = useState([]); 
 
   const stateCityMap = {
     Gujarat: ['Ahmedabad', 'Surat', 'Vadodara', 'Rajkot'],
