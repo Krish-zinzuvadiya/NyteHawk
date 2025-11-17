@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Login.css';
+import { Player } from "@lottiefiles/react-lottie-player";
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -82,10 +83,19 @@ const Login = () => {
       )}
 
       <div className="login-left">
-        <img src="/images/1.png" alt="login illustration" />
+        <div className="login-animation">
+    <Player
+      autoplay
+      loop
+      src="/images/Animations/man.json"
+      style={{ height: "100%", width: "100%" }}
+    />
+  </div>
       </div>
 
       <div className="login-right">
+         {/* Show animation ONLY on mobile */}
+  
         <div className="login-card">
           <h2 className="brand">Welcome to <span className="highlight">NyteHawk</span></h2>
           <p>Your Journey Begins Here</p>
@@ -116,6 +126,12 @@ const Login = () => {
             <p>You Don't Have an Account? <a href="/signup" className="signup-link">Create Account</a></p>
           </form>
         </div>
+        <div className="back-btn-container">
+  <button className="back-btn" onClick={() => navigate(-1)}>
+    <img src="/images/arrow.png" alt="Back" height="40px"/>
+  </button>
+</div>
+
       </div>
     </div>
   );
