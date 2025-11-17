@@ -58,6 +58,7 @@
 @media (max-width: 768px) {
   .help-container {
     padding: 1.5rem;
+    margin-top:15px;
   }
   .help-container h2 {
     font-size: 1.6rem;
