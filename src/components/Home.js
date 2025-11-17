@@ -4,6 +4,8 @@ import '../styles/Home.css';
 import { MapContainer, TileLayer, Marker, Popup, useMap, ZoomControl } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+//Icons.
+import policeIcon from '../../public/images/icons/police-station.png';
 
 const primeAreas = {
   Navrangpura: { lat: 23.0419, lon: 72.5601 },
@@ -85,11 +87,12 @@ const placeGroups = [
   },
   {
     groupLabel: '🏢 Public & Government',
-    items: [
-      { id: 'police', label: 'Police Station', keyType: 'amenity', value: 'police', iconUrl: '/Images/Icons/police-station.png' },
-      { id: 'fire_station', label: 'Fire Station', keyType: 'amenity', value: 'fire_station', iconUrl: '/Images/Icons/fire-station.png' },
-      { id: 'post_office', label: 'Post Office', keyType: 'amenity', value: 'post_office', iconUrl: '/Images/Icons/post-office.png' },
-    ],
+items: [
+  { id: 'police', label: 'Police Station', keyType: 'amenity', value: 'police', iconUrl: '/images/Icons/police-station.png' },
+  { id: 'fire_station', label: 'Fire Station', keyType: 'amenity', value: 'fire_station', iconUrl: '/images/Icons/fire-station.png' },
+  { id: 'post_office', label: 'Post Office', keyType: 'amenity', value: 'post_office', iconUrl: '/images/Icons/post-office.png' },
+],
+
   },
   {
     groupLabel: '🌳 Recreation',
