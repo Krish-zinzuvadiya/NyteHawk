@@ -4,6 +4,7 @@ import '../styles/LandingPage.css';
 import CarouselSection from './CarouselSection';
 import MiniBlogCards from './Blogs';
 import Footer from './Footer';
+import { ReactTyped } from "react-typed";
 
 
 const LandingPage = () => {
@@ -13,7 +14,7 @@ const LandingPage = () => {
     <>
     <div className="landing-container">
       <nav className="landing-navbar">
-        <div className="logo"><img src="/Images/logo1.png" alt="NyteHawk Logo" className="logo" /></div>
+        <div className="logo"><img src="/images/logo1.png" alt="NyteHawk Logo" className="logo" /></div>
         <div className="nav-buttons">
           <button onClick={() => navigate('/login')}>Login</button>
           <button className="get-started" onClick={() => navigate('/signup')}>Get Started</button>
@@ -21,13 +22,36 @@ const LandingPage = () => {
       </nav>
 
       <div className="landing-content">
-        <h1>Welcome To, <span className="gradient-text">NyteHawk</span></h1>
-        <p>When the city sleeps, we're awake. Get instant access to essential services 24/7 with nytehwk - your trusted night companion.</p>
-        <div className="cta-buttons">
-          <button onClick={() => navigate('/signup')}>Start Now →</button>
-          <button className="learn-more" onClick={() => navigate('/about')}>Learn More</button>
-        </div>
-      </div>
+  <h1>
+    Welcome To, <br />
+    <span className="gradient-text">NyteHawk</span>
+  </h1>
+
+  <p>
+    When the city sleeps, we're awake. Get instant access to essential services 24/7 with nytehwk - your trusted night companion.
+  </p>
+
+  {/* NEW TYPING LINE */}
+  <h2 className="typed-line">
+    <ReactTyped
+      strings={[
+        "Nearby Essentials",
+        "24/7 Emergency Support",
+        "Anytime Anywhere",
+        "Your Night Companion"
+      ]}
+      typeSpeed={60}
+      backSpeed={35}
+      loop
+    />
+  </h2>
+
+  <div className="cta-buttons">
+    <button onClick={() => navigate('/signup')}>Start Now →</button>
+    <button className="learn-more" onClick={() => navigate('/about')}>Learn More</button>
+  </div>
+</div>
+
     </div>
         <section className="why-choose-section">
     <h2 className="why-heading">Why Choose <span className="brand">nytehwk</span>?</h2>
