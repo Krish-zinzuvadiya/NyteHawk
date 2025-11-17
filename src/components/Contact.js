@@ -48,7 +48,7 @@ const Contact = () => {
             Aaryan Chauhan <a href="https://github.com/aaryan-chauhan"><FaGithub /></a>
           </li>
           <li>
-            Vishwa Malviya <a href="#"><FaGithub /></a>
+            Vishwa Malviya <a href="https://github.com/vishwamalavia"><FaGithub /></a>
           </li>
         </ul>
       </div>
