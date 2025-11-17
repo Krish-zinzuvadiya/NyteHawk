@@ -389,6 +389,47 @@ input,
     min-height: auto;
   }
 
+  .search-bar-container {
+  display: flex;
+  width: 108%;
+  margin-left: -10px;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.search-bar-container input{
+  
+}
+
+.search-input-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  margin-left: -4%;
+  transform: translateY(-50%);
+  color: #666;
+}
+
+.search-btn {
+  background: #6366f1;
+  border: none;
+  padding: 8px 18px;
+  margin-left: 0px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+  background-color: #4734b8;
+}
+
   .right-panel {
     order: 1; /* map goes on top */
     width: 100%;
