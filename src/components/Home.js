@@ -43,44 +43,44 @@ const placeGroups = [
   {
     groupLabel: '🏧 Financial Services',
     items: [
-      { id: 'atm', label: 'ATM', keyType: 'amenity', value: 'atm', iconUrl: '/Images/Icons/atm-machine.png' },
-      { id: 'bank', label: 'Bank', keyType: 'amenity', value: 'bank', iconUrl: '/Images/Icons/bank.png' },
+      { id: 'atm', label: 'ATM', keyType: 'amenity', value: 'atm', iconUrl: '/images/Icons/atm-machine.png' },
+      { id: 'bank', label: 'Bank', keyType: 'amenity', value: 'bank', iconUrl: '/images/Icons/bank.png' },
     ],
   },
   {
     groupLabel: '🏥 Medical Services',
     items: [
-      { id: 'hospital', label: 'Hospital', keyType: 'amenity', value: 'hospital', iconUrl: '/Images/Icons/hospital.png' },
-      { id: 'clinic', label: 'Clinic', keyType: 'amenity', value: 'clinic', iconUrl: '/Images/Icons/clinic.png' },
-      { id: 'pharmacy', label: 'Pharmacy', keyType: 'amenity', value: 'pharmacy', iconUrl: '/Images/Icons/drugstore.png' },
-      { id: 'doctor', label: 'Doctor', keyType: 'amenity', value: 'doctors', iconUrl: '/Images/Icons/doctor.png' },
-      { id: 'dentist', label: 'Dentist', keyType: 'amenity', value: 'dentist', iconUrl: '/Images/Icons/dental-checkup.png' },
+      { id: 'hospital', label: 'Hospital', keyType: 'amenity', value: 'hospital', iconUrl: '/images/Icons/hospital.png' },
+      { id: 'clinic', label: 'Clinic', keyType: 'amenity', value: 'clinic', iconUrl: '/images/Icons/clinic.png' },
+      { id: 'pharmacy', label: 'Pharmacy', keyType: 'amenity', value: 'pharmacy', iconUrl: '/images/Icons/drugstore.png' },
+      { id: 'doctor', label: 'Doctor', keyType: 'amenity', value: 'doctors', iconUrl: '/images/Icons/doctor.png' },
+      { id: 'dentist', label: 'Dentist', keyType: 'amenity', value: 'dentist', iconUrl: '/images/Icons/dental-checkup.png' },
     ],
   },
   {
     groupLabel: '🍽 Food & Drinks',
     items: [
-      { id: 'restaurant', label: 'Restaurant', keyType: 'amenity', value: 'restaurant', iconUrl: '/Images/Icons/restaurant-building.png' },
-      { id: 'fast_food', label: 'Fast Food', keyType: 'amenity', value: 'fast_food', iconUrl: '/Images/Icons/fast-food.png' },
-      { id: 'cafe', label: 'Café', keyType: 'amenity', value: 'cafe', iconUrl: '/Images/Icons/cafe.png' },
-      { id: 'ice_cream', label: 'Ice Cream', keyType: 'amenity', value: 'ice_cream', iconUrl: '/Images/Icons/ice-cream.png' },
+      { id: 'restaurant', label: 'Restaurant', keyType: 'amenity', value: 'restaurant', iconUrl: '/images/Icons/restaurant-building.png' },
+      { id: 'fast_food', label: 'Fast Food', keyType: 'amenity', value: 'fast_food', iconUrl: '/images/Icons/fast-food.png' },
+      { id: 'cafe', label: 'Café', keyType: 'amenity', value: 'cafe', iconUrl: '/images/Icons/cafe.png' },
+      { id: 'ice_cream', label: 'Ice Cream', keyType: 'amenity', value: 'ice_cream', iconUrl: '/images/Icons/ice-cream.png' },
     ],
   },
   {
     groupLabel: '🛒 Shopping',
     items: [
-      { id: 'supermarket', label: 'Supermarket', keyType: 'shop', value: 'supermarket', iconUrl: '/Images/Icons/big-market.png' },
-      { id: 'grocery', label: 'Grocery (Convenience)', keyType: 'shop', value: 'convenience', iconUrl: '/Images/Icons/grocery.png' },
-      { id: 'bakery', label: 'Bakery', keyType: 'shop', value: 'bakery', iconUrl: '/Images/Icons/bakery-shop.png' },
+      { id: 'supermarket', label: 'Supermarket', keyType: 'shop', value: 'supermarket', iconUrl: '/images/Icons/big-market.png' },
+      { id: 'grocery', label: 'Grocery (Convenience)', keyType: 'shop', value: 'convenience', iconUrl: '/images/Icons/grocery.png' },
+      { id: 'bakery', label: 'Bakery', keyType: 'shop', value: 'bakery', iconUrl: '/images/Icons/bakery-shop.png' },
     ],
   },
   {
     groupLabel: '⛽ Transport & Fuel',
     items: [
-      { id: 'fuel', label: 'Fuel Station', keyType: 'amenity', value: 'fuel', iconUrl: '/Images/Icons/gas-pump.png' },
-      { id: 'bus_station', label: 'Bus Station', keyType: 'amenity', value: 'bus_station', iconUrl: '/Images/Icons/bus-stop.png' },
-      { id: 'taxi', label: 'Taxi Stand', keyType: 'amenity', value: 'taxi', iconUrl: '/Images/Icons/taxi-stand.png' },
-      { id: 'parking', label: 'Parking', keyType: 'amenity', value: 'parking', iconUrl: '/Images/Icons/parking-area.png' },
+      { id: 'fuel', label: 'Fuel Station', keyType: 'amenity', value: 'fuel', iconUrl: '/images/Icons/gas-pump.png' },
+      { id: 'bus_station', label: 'Bus Station', keyType: 'amenity', value: 'bus_station', iconUrl: '/images/Icons/bus-stop.png' },
+      { id: 'taxi', label: 'Taxi Stand', keyType: 'amenity', value: 'taxi', iconUrl: '/images/Icons/taxi-stand.png' },
+      { id: 'parking', label: 'Parking', keyType: 'amenity', value: 'parking', iconUrl: '/images/Icons/parking-area.png' },
     ],
   },
   {
@@ -95,9 +95,9 @@ items: [
   {
     groupLabel: '🌳 Recreation',
     items: [
-      { id: 'park', label: 'Park', keyType: 'leisure', value: 'park', iconUrl: '/Images/Icons/park.png' },
-      { id: 'stadium', label: 'Stadium', keyType: 'leisure', value: 'stadium', iconUrl: '/Images/Icons/stadium.png' },
-      { id: 'garden', label: 'Garden', keyType: 'leisure', value: 'garden', iconUrl: '/Images/Icons/street-lamp.png' },
+      { id: 'park', label: 'Park', keyType: 'leisure', value: 'park', iconUrl: '/images/Icons/park.png' },
+      { id: 'stadium', label: 'Stadium', keyType: 'leisure', value: 'stadium', iconUrl: '/images/Icons/stadium.png' },
+      { id: 'garden', label: 'Garden', keyType: 'leisure', value: 'garden', iconUrl: '/images/Icons/street-lamp.png' },
     ],
   },
 ];
