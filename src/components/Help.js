@@ -4,6 +4,8 @@ import '../styles/Help.css';
 const Help = () => {
   return (
     <div className="help-container">
+      <h1 className="h1"></h1>
+
       <h2>Need Help?</h2>
       <p>
         NyteHawk helps you find essential services like ATMs, pharmacies, and food outlets during late-night hours.
