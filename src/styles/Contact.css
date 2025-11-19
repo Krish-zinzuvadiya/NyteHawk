@@ -8,7 +8,7 @@
   background: linear-gradient(135deg, #0a0a23, #1f1f3d);
   color: #e5e7eb;
   min-height: 100vh;
-  margin-top: 20px;
+
 }
 
 .team-section, .form-section {
@@ -19,7 +19,7 @@
   padding: 2rem;
   border-radius: 16px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-  margin-top: 20px;
+  margin-top: 100px;
 }
 
 .team-section h2, .form-section h2 {
