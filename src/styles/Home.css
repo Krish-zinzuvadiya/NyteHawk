@@ -487,10 +487,6 @@ input,
     margin-left: 0 !important;
   }
 
-  .suggestions-list {
-    display: none;
-    font-size: 0px;
-  }
 }
 
 /* Small Mobile (≤ 480px) */
@@ -514,8 +510,4 @@ input,
     font-size: 0.8rem;
   }
 
-  .suggestions-list {
-    display: none;
-    font-size: 0px;
-  }
 }
