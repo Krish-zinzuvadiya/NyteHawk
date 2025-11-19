@@ -5,6 +5,9 @@ import { MapContainer, TileLayer, Marker, Popup, useMap, ZoomControl } from 'rea
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
+/* -------------------------
+   Prime areas (your list)
+   ------------------------- */
 const primeAreas = {
   Navrangpura: { lat: 23.0419, lon: 72.5601 },
   Maninagar: { lat: 23.0155, lon: 72.6296 },
@@ -27,18 +30,36 @@ const primeAreas = {
   GIFTCity: { lat: 23.1645, lon: 72.683 },
 };
 
+/* -------------------------
+   Icons
+   ------------------------- */
+// default blue marker (user / searched location)
 const userIcon = new L.Icon({
   iconUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png',
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon-2x.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
 });
 
-/**
- * placeGroups structure:
- * - groupLabel: displayed heading
- * - items: array of { id, label, keyType, value, iconUrl }
- * keyType -> 'amenity' | 'shop' | 'leisure' etc (this will be used in Overpass query)
- */
+// green marker for live location using an inline SVG via DivIcon (keeps it crisp)
+const greenSvg = encodeURIComponent(`
+  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="42" viewBox="0 0 28 42">
+    <path d="M14 0C8 0 3 5 3 11c0 9.1 11 31 11 31s11-21.9 11-31C25 5 20 0 14 0z" fill="#10b981"/>
+    <circle cx="14" cy="11" r="4.5" fill="white"/>
+  </svg>
+`);
+const liveIcon = L.divIcon({
+  html: `<img src="data:image/svg+xml;utf8,${greenSvg}" style="display:block" />`,
+  className: '',
+  iconSize: [28, 42],
+  iconAnchor: [14, 42],
+  popupAnchor: [0, -36],
+});
+
+/* -------------------------
+   Place groups (your list)
+   ------------------------- */
 const placeGroups = [
   {
     groupLabel: '🏧 Financial Services',
@@ -85,12 +106,11 @@ const placeGroups = [
   },
   {
     groupLabel: '🏢 Public & Government',
-items: [
-  { id: 'police', label: 'Police Station', keyType: 'amenity', value: 'police', iconUrl: '/images/Icons/police-station.png' },
-  { id: 'fire_station', label: 'Fire Station', keyType: 'amenity', value: 'fire_station', iconUrl: '/images/Icons/fire-station.png' },
-  { id: 'post_office', label: 'Post Office', keyType: 'amenity', value: 'post_office', iconUrl: '/images/Icons/post-office.png' },
-],
-
+    items: [
+      { id: 'police', label: 'Police Station', keyType: 'amenity', value: 'police', iconUrl: '/images/Icons/police-station.png' },
+      { id: 'fire_station', label: 'Fire Station', keyType: 'amenity', value: 'fire_station', iconUrl: '/images/Icons/fire-station.png' },
+      { id: 'post_office', label: 'Post Office', keyType: 'amenity', value: 'post_office', iconUrl: '/images/Icons/post-office.png' },
+    ],
   },
   {
     groupLabel: '🌳 Recreation',
@@ -102,10 +122,10 @@ items: [
   },
 ];
 
-// fallback icon if none defined
+/* fallback icon */
 const fallbackIconUrl = 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png';
 
-// helper to build Leaflet icon for category
+/* helper to build category icon */
 const getCategoryIcon = (iconUrl) =>
   new L.Icon({
     iconUrl: iconUrl || fallbackIconUrl,
@@ -114,6 +134,7 @@ const getCategoryIcon = (iconUrl) =>
     popupAnchor: [0, -28],
   });
 
+/* Map updater (keeps map centering reactively) */
 const MapUpdater = ({ lat, lon }) => {
   const map = useMap();
   useEffect(() => {
@@ -124,20 +145,40 @@ const MapUpdater = ({ lat, lon }) => {
   return null;
 };
 
+/* Helper to determine place name */
+const getPlaceName = (tags = {}, fallbackType = '') => {
+  const name =
+    tags?.name ||
+    tags?.['name:en'] ||
+    tags?.brand ||
+    tags?.operator ||
+    tags?.official_name;
+
+  if (name) return name;
+  if (fallbackType === 'parking' || tags?.amenity === 'parking') return 'Parking Area';
+  return 'Unnamed';
+};
+
+/* -------------------------
+   Component
+   ------------------------- */
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [coords, setCoords] = useState({ lat: 23.0225, lon: 72.5714 });
-  // selectedType will be an object: { keyType, value, label, iconUrl, id }
-  const [selectedType, setSelectedType] = useState(null);
+  const [coords, setCoords] = useState({ lat: 23.0225, lon: 72.5714 }); // default Ahmedabad center
+  const [selectedType, setSelectedType] = useState(null); // object from placeGroups
   const [nearbyPlaces, setNearbyPlaces] = useState([]);
   const [range, setRange] = useState(5000);
   const [showMap, setShowMap] = useState(false);
-  const [openGroups, setOpenGroups] = useState({}); // track collapsible groups
+  const [openGroups, setOpenGroups] = useState({});
   const [loadingPlaces, setLoadingPlaces] = useState(false);
   const [lastFetchTime, setLastFetchTime] = useState(null);
 
-  // Auto-suggest handler (primeAreas)
+  // Live location state
+  const [userLocation, setUserLocation] = useState(null);
+  const [locationError, setLocationError] = useState('');
+
+  /* Auto-suggest using primeAreas keys */
   useEffect(() => {
     if (!searchQuery) {
       setSuggestions([]);
@@ -150,7 +191,7 @@ const Home = () => {
     setSuggestions(matchedAreas);
   }, [searchQuery]);
 
-  // Handle search button
+  /* Search handler (prime area exact match or pincode) */
   const handleSearch = async () => {
     const areaMatch = Object.keys(primeAreas).find(
       (a) => a.toLowerCase() === searchQuery.toLowerCase()
@@ -160,6 +201,7 @@ const Home = () => {
       setCoords(primeAreas[areaMatch]);
       setNearbyPlaces([]);
       setSelectedType(null);
+      setShowMap(true);
       return;
     }
 
@@ -174,6 +216,7 @@ const Home = () => {
           setCoords({ lat: parseFloat(location.lat), lon: parseFloat(location.lon) });
           setNearbyPlaces([]);
           setSelectedType(null);
+          setShowMap(true);
         } else {
           alert('Invalid or unsupported pincode.');
         }
@@ -186,15 +229,13 @@ const Home = () => {
     }
   };
 
-  // Toggle group collapse
+  /* Toggle collapsible groups */
   const toggleGroup = (label) => {
     setOpenGroups((prev) => ({ ...prev, [label]: !prev[label] }));
   };
 
-  // Build Overpass query depending on keyType (amenity/shop/leisure)
+  /* Build Overpass query for selected type */
   const buildOverpassQuery = (keyType, value, lat, lon, aroundMeters) => {
-    // If keyType is amenity/shop/leisure, query those tags
-    // Also attempt to include both node and way and relation and request center
     const tag = `${keyType}="${value}"`;
     return `
       [out:json][timeout:25];
@@ -207,27 +248,7 @@ const Home = () => {
     `;
   };
 
- const getPlaceName = (tags, type) => {
-  // Check for any available name
-  const name =
-    tags?.name ||
-    tags?.['name:en'] ||
-    tags?.brand ||
-    tags?.operator ||
-    tags?.official_name;
-
-  if (name) return name; // Use actual name if exists
-
-  // Special fallback for parking only
-  if (type === 'parking' || tags?.amenity === 'parking') return 'Parking Area';
-
-  // Default fallback
-  return 'Unnamed';
-};
-
-
-
-  // Fetch nearby places when selectedType changes
+  /* Fetch places when selectedType or coords or range changes */
   useEffect(() => {
     if (!selectedType || !coords.lat || !coords.lon) return;
 
@@ -242,13 +263,18 @@ const Home = () => {
         );
         const data = await res.json();
         const points = (data.elements || [])
-          .map((el) => ({
-            id: `${el.type}-${el.id}`,
-            lat: el.lat || el.center?.lat,
-            lon: el.lon || el.center?.lon,
-            name: getPlaceName(el.tags,selectedType),
-            tags: el.tags || {},
-          }))
+          .map((el) => {
+            const lat = el.lat || el.center?.lat;
+            const lon = el.lon || el.center?.lon;
+            const fallbackType = el.tags?.amenity || el.tags?.shop || el.tags?.leisure || '';
+            return {
+              id: `${el.type}-${el.id}`,
+              lat,
+              lon,
+              name: getPlaceName(el.tags, fallbackType),
+              tags: el.tags || {},
+            };
+          })
           .filter((el) => el.lat && el.lon);
 
         setNearbyPlaces(points);
@@ -265,20 +291,70 @@ const Home = () => {
     fetchData();
   }, [selectedType, coords, range]);
 
-  // Helper for selecting an item
+  /* Select a category item */
   const handleSelectItem = (item) => {
     setSelectedType(item);
-    // open map automatically so user sees results
     setShowMap(true);
-    // clear previous markers while loading
-    setNearbyPlaces([]);
+    setNearbyPlaces([]); // clear while loading
   };
 
-  // Render - left panel placements: grouped collapsible list
+  /* Live location function */
+  const getLiveLocation = () => {
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by your browser.');
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setUserLocation({ lat: latitude, lon: longitude });
+        setCoords({ lat: latitude, lon: longitude }); // center on live location
+        setShowMap(true);
+
+        setLocationError('⚠ Live location accuracy may vary on Laptop/Desktop devices.');
+        setTimeout(() => setLocationError(''), 5000);
+      },
+      (err) => {
+        console.error('Geolocation error:', err);
+        alert('Unable to fetch your location. Please enable GPS and allow permission.');
+      },
+      { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
+    );
+  };
+
+  /* Helper to display a small overlay on the map when live location exists */
+  const LiveLocationOverlay = ({ message }) => {
+    if (!message) return null;
+    return (
+      <div
+        style={{
+          position: 'absolute',
+          top: 12,
+          left: 12,
+          zIndex: 9999,
+          background: '#f59e0b',
+          color: '#111827',
+          padding: '6px 10px',
+          borderRadius: 8,
+          fontSize: 13,
+          boxShadow: '0 2px 10px rgba(0,0,0,0.15)',
+        }}
+      >
+        {message}
+      </div>
+    );
+  };
+
+  /* -------------------------
+     Render
+     ------------------------- */
   return (
     <div className="home-grid">
+      {/* LEFT PANEL */}
       <div className="left-panel">
         <h3 className="panel-title">Search Location</h3>
+
         <div className="search-bar-container">
           <div className="search-input-wrapper">
             <span className="search-icon">🔍</span>
@@ -306,6 +382,7 @@ const Home = () => {
                     setSuggestions([]);
                     setSelectedType(null);
                     setNearbyPlaces([]);
+                    setShowMap(true);
                   }}
                 >
                   {s.replace(/([A-Z])/g, ' $1').trim()}
@@ -314,6 +391,21 @@ const Home = () => {
             </ul>
           )}
         </div>
+
+        {/* Live location button */}
+        <button
+          className="search-btn"
+          onClick={getLiveLocation}
+          style={{ background: '#10b981', marginTop: 8 }}
+        >
+          📍 Use Live Location
+        </button>
+
+        {locationError && (
+          <p style={{ color: '#fbbf24', fontSize: '0.85rem', marginTop: '6px' }}>
+            {locationError}
+          </p>
+        )}
 
         {coords.lat && (
           <p className="location-output">
@@ -339,35 +431,33 @@ const Home = () => {
           <h4 className="panel-title">Show Nearby:</h4>
 
           {placeGroups.map((group) => (
-  <div key={group.groupLabel} className="place-group">
-    <div
-      className={`group-header ${openGroups[group.groupLabel] ? 'open' : ''}`}
-      onClick={() => toggleGroup(group.groupLabel)}
-    >
-      <strong>{group.groupLabel}</strong>
-      <span className="toggle-icon">{openGroups[group.groupLabel] ? '−' : '+'}</span>
-    </div>
+            <div key={group.groupLabel} className="place-group">
+              <div
+                className={`group-header ${openGroups[group.groupLabel] ? 'open' : ''}`}
+                onClick={() => toggleGroup(group.groupLabel)}
+              >
+                <strong>{group.groupLabel}</strong>
+                <span className="toggle-icon">{openGroups[group.groupLabel] ? '−' : '+'}</span>
+              </div>
 
-    <div
-      className={`group-items ${openGroups[group.groupLabel] ? 'open' : ''}`}
-    >
-      {group.items.map((item) => (
-        <button
-          key={item.id}
-          className={`place-btn ${selectedType?.id === item.id ? 'active' : ''}`}
-          onClick={() => handleSelectItem(item)}
-        >
-          <img src={item.iconUrl} alt="" />
-          <span>{item.label}</span>
-        </button>
-      ))}
-    </div>
-  </div>
-))}
-
+              <div className={`group-items ${openGroups[group.groupLabel] ? 'open' : ''}`}>
+                {group.items.map((item) => (
+                  <button
+                    key={item.id}
+                    className={`place-btn ${selectedType?.id === item.id ? 'active' : ''}`}
+                    onClick={() => handleSelectItem(item)}
+                  >
+                    <img src={item.iconUrl} alt="" />
+                    <span>{item.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
+      {/* RIGHT PANEL */}
       <div className="right-panel">
         {!showMap ? (
           <div
@@ -391,8 +481,8 @@ const Home = () => {
           </div>
         ) : (
           <div style={{ height: '100%', width: '100%', position: 'relative' }}>
-            {/* Small status overlay on map */}
-            
+            {/* optional warning overlay if live location message exists */}
+            <LiveLocationOverlay message={locationError} />
 
             <MapContainer
               center={[coords.lat, coords.lon]}
@@ -402,18 +492,27 @@ const Home = () => {
               style={{ height: '100%', width: '100%', borderRadius: '12px' }}
             >
               <ZoomControl position="bottomright" />
-
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution="&copy; OpenStreetMap contributors"
               />
 
+              {/* Keep MapUpdater inside MapContainer (safe use of useMap) */}
               <MapUpdater lat={coords.lat} lon={coords.lon} />
 
+              {/* Searched / selected location (blue marker) */}
               <Marker position={[coords.lat, coords.lon]} icon={userIcon}>
-                <Popup>You are here</Popup>
+                <Popup>Selected Location</Popup>
               </Marker>
 
+              {/* Live GPS marker (green) - only inside the MapContainer */}
+              {userLocation && (
+                <Marker position={[userLocation.lat, userLocation.lon]} icon={liveIcon}>
+                  <Popup>Your Live Location</Popup>
+                </Marker>
+              )}
+
+              {/* Nearby places returned from Overpass (category icons) */}
               {nearbyPlaces.map((place) => {
                 const iconToUse = selectedType?.iconUrl || fallbackIconUrl;
                 const categoryIcon = getCategoryIcon(iconToUse);
