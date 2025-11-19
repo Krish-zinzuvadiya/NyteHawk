@@ -53,12 +53,6 @@ const Navbar = () => {
   </Link>
       </div>
 
-      <div className="navbar-actions">
-  <button className="emergency-btn" onClick={openEmergency}>
-    <FiAlertTriangle className="alert-icon" />
-    Emergency
-  </button>
-</div>
 
 
       {showEmergency && coords.lat && (
