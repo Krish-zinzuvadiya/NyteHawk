@@ -1,5 +1,5 @@
 import React from 'react';
-import Home from './Home'; // your existing map page
+import Home from './Home';
 import '../styles/MainHome.css';
 
 const MainHome = () => {
@@ -13,10 +13,16 @@ const MainHome = () => {
   return (
     <>
       <div className="hero-section">
+        
+        {/* Animated gradient background */}
+        <div className="animated-bg"></div>
+
         <div className="hero-content">
           <h1>🌃 Welcome to NyteHawk</h1>
-          <p>Find nearby services open at night .</p>
-          <button className="explore-btn" onClick={scrollToMap}>Explore Now</button>
+          <p>Find nearby services open at night.</p>
+          <button className="explore-btn" onClick={scrollToMap}>
+            Explore Now
+          </button>
         </div>
       </div>
 
