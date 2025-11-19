@@ -2,11 +2,11 @@
   background: #0a0a23;
   color: white;
   padding: 2rem;
+  margin-top: -50px;
   max-width: 100%;
-  margin: auto;
+  /* margin: 10px auto; */
   line-height: 1.7;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-  border-radius: 10px;
 }
 
 /* Headings */
@@ -17,6 +17,9 @@
   text-align: center;
 }
 
+.h1{
+  height: 70px;
+}
 .help-container h3 {
   margin-top: 1.5rem;
   color: #88f;
@@ -59,6 +62,8 @@
   .help-container {
     padding: 1.5rem;
     margin-top:15px;
+  margin-top: -50px;
+
   }
   .help-container h2 {
     font-size: 1.6rem;
@@ -74,6 +79,7 @@
 @media (max-width: 480px) {
   .help-container {
     padding: 1rem;
+  margin-top: -50px;
     text-align: center; /* ✅ center align for small screens */
   }
   .help-container h2 {
