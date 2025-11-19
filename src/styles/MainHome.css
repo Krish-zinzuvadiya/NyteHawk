@@ -1,7 +1,7 @@
 /* Full hero container */
 .hero-section {
   position: relative;
-  margin-top: -60px;
+  /* margin-top: -60px; */
   height: 100vh;
   width: 100%;
   overflow: hidden;
@@ -13,7 +13,7 @@
 /* Animated background */
 .animated-bg {
   position: absolute;
-  top: 0;
+  top: -1;
   left:-1;
   width: 120%;
   height: 120%;
