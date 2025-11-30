@@ -1,6 +1,7 @@
 /* Profile Container */
 .profile-container {
   padding: 3rem 2rem;
+  margin-top: 50px;
   min-height: 100vh;
   background: linear-gradient(135deg, #0f172a, #1e293b);
   color: #fff;
@@ -12,6 +13,7 @@
 
 /* Card */
 .profile-card {
+  margin-top: 30px;
   background-color: #1e293b;
   padding: 2rem 2.5rem;
   border-radius: 16px;
