@@ -44,9 +44,10 @@ const Navbar = () => {
         </div>
 
         <button className="emergency-btn" onClick={openEmergency}>
-          <FiAlertTriangle className="alert-icon" />
-          Emergency
-        </button>
+  <FiAlertTriangle className="alert-icon" />
+  <span>Emergency</span>
+</button>
+
 
          <Link to="/profile" className="profile-btn">
     <ion-icon name="person-circle-outline" class="icon-hover"></ion-icon>
