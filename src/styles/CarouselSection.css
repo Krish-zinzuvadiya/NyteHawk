@@ -1,0 +1,30 @@
+.carousel-container {
+  padding: 2rem;
+  background-color: #0a0a23;
+  color: white;
+  text-align: center;
+}
+
+.carousel-heading {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #6366f1;
+}
+
+.slide-card {
+  background-color: #1f1f3d;
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.slide-card img {
+  height: 80px;
+  margin-bottom: 10px;
+}
+
+.slide-card h4 {
+  color: #fff;
+  font-size: 1.1rem;
+}

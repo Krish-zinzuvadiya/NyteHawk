@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Order Food - Mango Ahmedabad</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #fff8f0, #ffe0b2); /* Soft gradient background */
+  }
+
+  /* Restaurant Header */
+  .restaurant-header {
+    padding: 20px;
+    background: linear-gradient(90deg, #ff9800, #ff5722); /* Warm gradient */
+    color: white;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  .restaurant-header h1 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+  }
+  .restaurant-details {
+    background: white;
+    width: 90%;
+    margin: auto;
+    border-radius: 16px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .restaurant-details p {
+    margin: 4px 0;
+    font-size: 0.95rem;
+  }
+  .rating {
+    color: green;
+    font-weight: bold;
+  }
+  .cuisine {
+    color: #ff5722;
+    font-weight: 500;
+  }
+  .meta {
+    color: #555;
+  }
+
+  /* Food Item */
+  .food-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    background: white;
+    margin: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  }
+  .food-info {
+    flex: 1;
+    padding-right: 15px;
+  }
+  .food-info h3 {
+    margin: 0 0 5px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #ff5722;
+  }
+  .price {
+    font-weight: bold;
+    margin-bottom: 6px;
+    display: block;
+    color: #4caf50;
+  }
+  .description {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.4;
+  }
+  .food-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 120px;
+  }
+  .food-image img {
+    width: 100%;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
+  /* Buttons */
+  .add-btn, .qty-btn {
+    background: #ff9800;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .add-btn:hover, .qty-btn:hover {
+    background: #e68900;
+  }
+
+  /* Quantity Control */
+  .qty-control {
+    display: flex;
+    align-items: center;
+    background: #ff9800;
+    border-radius: 4px;
+    overflow: hidden;
+    color: white;
+    font-weight: bold;
+  }
+  .qty-btn {
+    background: transparent;
+    padding: 5px 10px;
+    font-size: 1.1rem;
+  }
+  .qty-count {
+    padding: 0 10px;
+    font-size: 1rem;
+  }
+
+  /* Bottom Bar */
+  .bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(90deg, #ff9800, #ff5722);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    font-size: 1rem;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.2);
+  }
+  .checkout-btn {
+    background: #4caf50;
+    color: #fff;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+  }
+  .checkout-btn:hover {
+    background: #3d8b40;
+  }
+
+  /* QR Code Popup */
+  #qrPopup {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  .qr-box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  }
+  .qr-price {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #ff5722;
+    margin-bottom: 10px;
+  }
+  .qr-box button {
+    margin-top: 10px;
+    background: #ff5722;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .qr-box button:hover {
+    background: #e64a19;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .food-item {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .food-image {
+      width: 80%;
+      margin-top: 10px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Restaurant Header -->
+<div class="restaurant-header">
+  <h1>Mango Ahmedabad</h1>
+  <div class="restaurant-details">
+    <p><span class="rating">4.3 (210 ratings)</span></p>
+    <p class="cuisine">Indian, Continental</p>
+    <p class="meta">Outlet: Bodakdev</p>
+    <p class="meta">Delivery Time: 35–45 mins</p>
+  </div>
+</div>
+
+<!-- Food Item -->
+<div class="food-item">
+  <div class="food-info">
+    <h3>Paneer Sizzler</h3>
+    <span class="price">₹350</span>
+    <p class="description">
+      Hot and spicy Paneer Sizzler served with stir-fried veggies and aromatic rice.
+    </p>
+  </div>
+  <div class="food-image">
+    <img src="https://images.archanaskitchen.com/images/recipes/world-recipes/indian-chinese-recipes/Paneer_Sizzler_in_Chilli_Garlic_Sauce_with_Rice_a47f9347f4.jpg" alt="Paneer Sizzler" />
+    <div id="actionArea">
+      <button class="add-btn" onclick="addItem()">ADD</button>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom Bar -->
+<div class="bottom-bar" id="bottomBar" style="display:none;">
+  <span id="totalPrice">₹0</span>
+  <button class="checkout-btn" onclick="checkout()">Checkout</button>
+</div>
+
+<!-- QR Code Popup -->
+<div id="qrPopup">
+  <div class="qr-box">
+    <div class="qr-price" id="qrPriceText"></div>
+    <div id="qrcode"></div>
+    <p>Scan to Pay securely using any UPI app</p>
+    <button onclick="closeQR()">Close</button>
+  </div>
+</div>
+
+<script>
+  let quantity = 0;
+  const pricePerItem = 350;
+  const totalPriceEl = document.getElementById('totalPrice');
+  const bottomBar = document.getElementById('bottomBar');
+  const actionArea = document.getElementById('actionArea');
+
+  const myUpiId = "krish@upi"; // Your UPI ID
+  const myName = "Krish Zinzuvadiya"; // Your Name
+
+  function updateBottomBar() {
+    const total = quantity * pricePerItem;
+    totalPriceEl.textContent = `₹${total}`;
+    bottomBar.style.display = quantity > 0 ? 'flex' : 'none';
+  }
+
+  function addItem() {
+    quantity = 1;
+    actionArea.innerHTML = `
+      <div class="qty-control">
+        <button class="qty-btn" onclick="decreaseQty()">-</button>
+        <span class="qty-count" id="qtyCount">${quantity}</span>
+        <button class="qty-btn" onclick="increaseQty()">+</button>
+      </div>
+    `;
+    updateBottomBar();
+  }
+
+  function increaseQty() {
+    quantity++;
+    document.getElementById('qtyCount').textContent = quantity;
+    updateBottomBar();
+  }
+
+  function decreaseQty() {
+    if (quantity > 1) {
+      quantity--;
+      document.getElementById('qtyCount').textContent = quantity;
+      updateBottomBar();
+    } else {
+      quantity = 0;
+      actionArea.innerHTML = `<button class="add-btn" onclick="addItem()">ADD</button>`;
+      updateBottomBar();
+    }
+  }
+
+  function checkout() {
+    const total = quantity * pricePerItem;
+    if (total === 0) return;
+
+    // Set price text above QR
+    document.getElementById('qrPriceText').textContent = `Pay: ₹${total}`;
+
+    // Generate UPI QR Code
+    const upiLink = `upi://pay?pa=${encodeURIComponent(myUpiId)}&pn=${encodeURIComponent(myName)}&am=${total}&cu=INR`;
+    document.getElementById('qrcode').innerHTML = "";
+    new QRCode(document.getElementById('qrcode'), {
+      text: upiLink,
+      width: 200,
+      height: 200
+    });
+
+    document.getElementById('qrPopup').style.display = "flex";
+  }
+
+  function closeQR() {
+    document.getElementById('qrPopup').style.display = "none";
+  }
+</script>
+</body>
+</html>
+
+
+
+sms.js
+// contactRouter.js
+const express = require('express');
+const nodemailer = require('nodemailer');
+const mongoose = require('mongoose');
+
+const router = express.Router();
+
+// MongoDB schema
+const MessageSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  message: String,
+}, { timestamps: true });
+
+const Message = mongoose.model('Message', MessageSchema);
+
+// POST: send email
+router.post('/', async (req, res) => {
+  const { name, email, message } = req.body;
+
+  if (!email.includes('@') || !email.endsWith('.com')) {
+    return res.status(400).json({ message: 'Invalid email address' });
+  }
+
+  try {
+    // Save message in MongoDB
+    const newMessage = new Message({ name, email, message });
+    await newMessage.save();
+
+    // Setup email transport
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'krishrami198@gmail.com',
+        pass: 'tpud axdw rryp eoll' // use app password
+      }
+    });
+
+    const mailOptions = {
+      from: 'krishrami198@gmail.com',
+      to: email,
+      subject: 'Thanks for contacting us!',
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px;">
+          <p>Hi ${name},</p>
+          <p>Thanks for your message:</p>
+          <blockquote style="background: #f0f0f0; padding: 10px;">"${message}"</blockquote>
+          <p>We'll get back to you shortly.</p>
+          <p>Best regards,<br><strong>Support Team</strong></p>
+        </div>
+      `
+    };
+
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ message: 'Message sent successfully!' });
+
+  } catch (error) {
+    console.error('❌ Error sending email:', error);
+    res.status(500).json({ message: 'Failed to send message' });
+  }
+});
+
+module.exports = router;
