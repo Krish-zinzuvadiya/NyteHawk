@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import '../styles/Services.css';
-import { useLocation } from 'react-router-dom';
 import {
   FaMoneyCheckAlt, FaHamburger,
   FaPills, FaHospital, FaGasPump
@@ -22,14 +21,6 @@ const categories = [
 
 const Services = () => {
   const [activeCategory, setActiveCategory] = useState('ATMs');
-  const [selectedPharmacy, setSelectedPharmacy] = useState('');
-  const [selectedBranch, setSelectedBranch] = useState('');
-  const location = useLocation();
-  const { selectedLocation, isPrime } = location.state || {};
-
-  const displayLocation = selectedLocation
-    ? `${selectedLocation} (${isPrime ? "Prime Location" : "Pincode"})`
-    : "You Are Not Select Any Location";
 
   return (
     <div className="services-page">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Login.css';
 import { Player } from "@lottiefiles/react-lottie-player";
@@ -8,6 +8,8 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
+  const { selectedLocation, isPrime } = location.state || {};
   const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(true);
 

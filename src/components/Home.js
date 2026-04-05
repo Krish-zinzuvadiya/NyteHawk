@@ -171,8 +171,6 @@ const Home = () => {
   const [range, setRange] = useState(5000);
   const [showMap, setShowMap] = useState(false);
   const [openGroups, setOpenGroups] = useState({});
-  const [loadingPlaces, setLoadingPlaces] = useState(false);
-  const [lastFetchTime, setLastFetchTime] = useState(null);
 
   // Live location state
   const [userLocation, setUserLocation] = useState(null);
