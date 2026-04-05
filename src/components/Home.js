@@ -171,10 +171,12 @@ const Home = () => {
   const [range, setRange] = useState(5000);
   const [showMap, setShowMap] = useState(false);
   const [openGroups, setOpenGroups] = useState({});
+  const [loadingPlaces, setLoadingPlaces] = useState(false);
+  const [lastFetchTime, setLastFetchTime] = useState(null);
+  const [locationError, setLocationError] = useState('');
 
   // Live location state
   const [userLocation, setUserLocation] = useState(null);
-  const [locationError, setLocationError] = useState('');
 
   /* Auto-suggest using primeAreas keys */
   useEffect(() => {
