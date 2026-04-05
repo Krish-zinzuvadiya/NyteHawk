@@ -30,9 +30,9 @@ mongoose.connect(process.env.MONGO_URL)
 
 // ---------------------- IMPORT ROUTES ----------------------
 // Make sure these files exist in /routes folder
-app.use(require('./routes/subscribe'));
-app.use(require('./routes/medicine'));
-app.use(require('./routes/transaction'));
+app.use(require('./routes/Subscribe'));
+app.use(require('./routes/Medicine'));
+app.use(require('./routes/Transaction'));
 app.use(require('./routes/app'));
 
 
